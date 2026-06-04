@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS301 Mid-Term Study Guide | Lectures 1-18</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #16161d;
+    --surface2: #1e1e28;
+    --border: #2a2a38;
+    --accent: #7c6af7;
+    --accent2: #f7a26a;
+    --accent3: #6af7c8;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1030 0%, #0f1a2a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 200px;
+    background: radial-gradient(ellipse, #7c6af733 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+  }
+  header h1 span { color: var(--accent); }
+  header p { color: var(--text-muted); margin-top: 0.4rem; font-size: 0.9rem; }
+
+  .badge-row { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+  }
+  .badge.accent { border-color: var(--accent); color: var(--accent); }
+  .badge.orange { border-color: var(--accent2); color: var(--accent2); }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .paper-pattern {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.88rem;
+  }
+  .paper-pattern h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+  .paper-pattern table { width: 100%; border-collapse: collapse; }
+  .paper-pattern td, .paper-pattern th {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+  .paper-pattern th {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: left;
+  }
+  .paper-pattern .highlight { color: var(--accent2); font-weight: 500; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin: 2rem 0 1rem;
+  }
+
+  .lecture-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .lecture-card:hover { border-color: var(--accent); }
+
+  .lecture-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.4rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .lec-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .lec-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+
+  .toggle-icon { color: var(--text-muted); font-size: 1rem; transition: transform 0.3s; }
+
+  .lecture-body { padding: 1.4rem; display: block; }
+  .lecture-body.collapsed { display: none; }
+
+  .topic-block { margin-bottom: 1.4rem; }
+
+  .topic-block h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .topic-block h4::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+  }
+
+  .topic-block p {
+    color: var(--text);
+    font-size: 0.88rem;
+    line-height: 1.75;
+    margin-bottom: 0.4rem;
+  }
+
+  .hint {
+    background: #1a1520;
+    border: 1px solid #7c6af744;
+    border-left: 3px solid var(--accent2);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    color: #d4a97a;
+    font-style: italic;
+  }
+  .hint::before {
+    content: 'Hint: ';
+    font-weight: 700;
+    font-style: normal;
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  .code-snippet {
+    background: #0d0d17;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    margin: 0.6rem 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: #a8e6c8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .important-note {
+    background: #1a1520;
+    border: 1px solid #7c6af733;
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    font-size: 0.83rem;
+    color: #b0a8e8;
+    margin: 0.7rem 0;
+  }
+  .important-note strong { color: var(--accent); }
+
+  .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.8rem; }
+  .tag {
+    font-size: 0.7rem;
+    font-family: 'DM Mono', monospace;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    background: #ffffff10;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .quick-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+  @media(max-width: 600px) { .quick-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CS301 <span>Data Structures</span></h1>
+  <p>Mid-Term Study Guide — Spring 2026 | Lectures 01 to 18</p>
+  <div class="badge-row">
+    <span class="badge accent">30 Marks Total</span>
+    <span class="badge orange">50 Minutes</span>
+    <span class="badge">14 MCQs — Section A</span>
+    <span class="badge">2x3 + 2x5 — Section B</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="paper-pattern">
+    <h3>Paper Pattern</h3>
+    <table>
+      <tr><th>Section</th><th>Type</th><th>Marks</th><th>Detail</th></tr>
+      <tr><td>A</td><td>Objective (MCQs)</td><td class="highlight">14</td><td>14 questions, all must be attempted</td></tr>
+      <tr><td>B</td><td>Subjective</td><td class="highlight">16</td><td>2 questions x 3 marks + 2 questions x 5 marks</td></tr>
+    </table>
+  </div>
+
+  <div class="section-title">Lectures 01 – 04: Linked Lists and Foundations</div>
+
+  <!-- LEC 01 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 01</span>
+      <span class="lec-title">Introduction to Data Structures + Arrays + List</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>What is a Data Structure?</h4>
+        <p>A data structure is a way of organizing data inside a computer so that programs can work faster and use less memory. When data becomes large, choosing the right data structure becomes critical — it can make a program 100x faster without buying new hardware.</p>
+        <div class="hint">Yaad rakho: faster CPU khareedna solution nahi hota — sahi data structure use karna hota hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>How to Select a Data Structure?</h4>
+        <p>First, analyze the problem — how much data is there, and what operations are needed (insert, delete, search)? Then pick the structure that best fits those operations. Every data structure has three costs: space (memory), time (speed), and programming effort.</p>
+        <div class="hint">3 costs yaad karo: space, time, aur effort — koi bhi structure sab mein perfect nahi hota.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Array</h4>
+        <p>An array stores elements in a continuous block of memory with fixed size. You can access any element instantly using its index. The problem: inserting or deleting in the middle requires shifting all other elements, which is slow.</p>
+        <div class="code-snippet">int x[6];
+for(j = 0; j < 6; j++)
+    x[j] = 2 * j;  // stores: 0,2,4,6,8,10</div>
+        <div class="hint">Array = random access fast (O1), lekin insertion/deletion slow kyunki shifting karni padti hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>List Data Structure</h4>
+        <p>A list does not require continuous memory. Elements are linked together using pointers. Unlike arrays, you can grow or shrink it at runtime, and inserting/deleting is much easier.</p>
+        <div class="hint">List = flexible size, array = fixed size — yeh fundamental farq hai.</div>
+      </div>
+
+      <div class="tags"><span class="tag">data structure</span><span class="tag">array</span><span class="tag">list</span><span class="tag">efficiency</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 02 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 02</span>
+      <span class="lec-title">Linked List Methods: add, next, remove, find</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>add() Method</h4>
+        <p>Inserts a new element at the current position in the list. A new node is created, its pointer is set to the next existing node, and the previous node's pointer is updated to point to the new node.</p>
+        <div class="hint">Pointer update ki sequence important hai — pehle naya node ka next set karo, phir previous ka next update karo.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>next() Method</h4>
+        <p>Moves the current pointer to the next node. Used to traverse the list from one node to the next.</p>
+        <div class="hint">next() = ek qadam aage badho list mein.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>remove() Method</h4>
+        <p>Removes the current node from the list. The previous node's pointer is updated to skip over the removed node and point directly to the node after it. If memory was dynamically allocated, it must be freed.</p>
+        <div class="hint">Remove karte waqt chain tutne se bachao — pehle pointers adjust karo, phir node delete karo.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>find() Method</h4>
+        <p>Searches the entire list for a specific value by checking each node one by one from the beginning until the value is found or the list ends.</p>
+        <div class="hint">find() worst case = puri list check karni padti hai — O(n) time complexity.</div>
+      </div>
+
+      <div class="tags"><span class="tag">linked list</span><span class="tag">methods</span><span class="tag">traversal</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 03 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 03</span>
+      <span class="lec-title">Linked List in Memory + C++ Implementation</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>How Linked List Lives in Memory</h4>
+        <p>In an array, all elements sit in one continuous block of memory. In a linked list, each node can be stored anywhere in memory — they are connected only by pointers. This is why a linked list does not need a fixed size declared upfront.</p>
+        <div class="hint">Sochlo: Array = ghar row mein. Linked list = ghar alag alag jagah, pointers chitthi ki tarah connect karte hain.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Node Structure in C++</h4>
+        <p>Each node contains two things: the actual data, and a pointer to the next node. This is how nodes are chained together to form a list.</p>
+        <div class="code-snippet">struct Node {
+    int data;       // the value stored
+    Node* next;     // pointer to next node
+};</div>
+        <div class="hint">Har node = data + next pointer. Yeh do cheezein har linked list node mein zaroor hoti hain.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Linked List Operations</h4>
+        <p>For inserting at the beginning, end, or middle — you always need to carefully update pointers in the right order. One wrong pointer assignment can break the entire chain and lose access to parts of the list.</p>
+        <div class="hint">Pointer update ka golden rule: pehle naye node ka next lagao, phir purane node ka next badlo — kabhi ulta mat karo.</div>
+      </div>
+
+      <div class="tags"><span class="tag">memory</span><span class="tag">nodes</span><span class="tag">pointers</span><span class="tag">C++</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 04 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 04</span>
+      <span class="lec-title">Doubly Linked List + Circular List + Josephus Problem</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Doubly Linked List</h4>
+        <p>Each node has two pointers: one pointing to the next node and one pointing to the previous node. This allows traversal in both directions — forward and backward. The trade-off is that each node uses more memory.</p>
+        <div class="hint">Doubly = do pointers per node. Faida: pichhe bhi ja sako. Nuksan: zyada memory.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Array vs Linked List Analysis</h4>
+        <p>Array gives O(1) random access (jump directly to any index). Linked list requires O(n) to reach the nth element (must walk through each node). However, linked list insertion and deletion are faster once you have the pointer to the right location.</p>
+        <div class="hint">Array = fast access, slow insert/delete. Linked list = slow access, fast insert/delete. Trade-off samajhna zaruri hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Circular Linked List</h4>
+        <p>The last node's next pointer points back to the first node instead of NULL. This creates a circular loop — you can keep traversing indefinitely.</p>
+        <div class="hint">Circular list mein koi NULL nahi hota last node par — yeh ek loop hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Josephus Problem</h4>
+        <p>10 people stand in a circle. Every 3rd person is eliminated. A circular linked list perfectly models this — keep removing every 3rd node until only one remains. That one is the leader.</p>
+        <div class="hint">Josephus = circular linked list ka best real-world example — MCQ mein agar poocha toh yahi answer hai.</div>
+      </div>
+
+      <div class="tags"><span class="tag">doubly linked</span><span class="tag">circular list</span><span class="tag">josephus</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Lectures 05 – 09: Stack, ADT, Expressions</div>
+
+  <!-- LEC 05 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 05</span>
+      <span class="lec-title">Abstract Data Type (ADT) + Stack + Stack using Array</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Abstract Data Type (ADT)</h4>
+        <p>An ADT defines what operations a data structure supports, but hides how those operations are implemented internally. The user only sees the interface — not the internal code. This is the same concept as C++ classes with private and public members.</p>
+        <div class="hint">ADT = sirf interface dikhao, implementation chhupao — jaise car chalana seekhne ke liye engine samajhna zaruri nahi.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Stack — What Is It?</h4>
+        <p>A stack is a LIFO structure — Last In, First Out. The last element you put in is the first one you get out. Think of a stack of plates: you always pick the top one first.</p>
+        <div class="important-note"><strong>LIFO = Last In, First Out.</strong> Two main operations: PUSH (add to top) and POP (remove from top). Everything happens at the top only.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Stack Implementation using Array</h4>
+        <p>Use an array and a variable called "top" to track where the stack ends. Push: increment top, then store the element. Pop: read the element at top, then decrement top.</p>
+        <div class="code-snippet">Push: top++; arr[top] = value;
+Pop:  value = arr[top]; top--;</div>
+        <div class="hint">Stack overflow = array full ho gaya aur push kiya. Stack underflow = stack empty tha aur pop kiya — dono error cases hain.</div>
+      </div>
+
+      <div class="tags"><span class="tag">ADT</span><span class="tag">stack</span><span class="tag">LIFO</span><span class="tag">push/pop</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 06 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 06</span>
+      <span class="lec-title">Stack with Linked List + Infix to Postfix Conversion</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Stack using Linked List</h4>
+        <p>Instead of an array, you can build a stack using a linked list. Advantage: no fixed size limit — the stack grows dynamically. Disadvantage: each node uses a little extra memory for the pointer.</p>
+        <div class="hint">Array stack = fast, fixed size. Linked list stack = flexible size, thodi zyada memory. Dono valid implementations hain.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Infix, Postfix, Prefix</h4>
+        <p>Infix: operator is between operands — how humans write: A+B. Postfix: operator comes after operands — AB+. Prefix: operator comes before — +AB. Computers prefer postfix because it removes the need for parentheses and precedence rules during evaluation.</p>
+        <div class="code-snippet">Infix    → Postfix
+A+B      → AB+
+A+B*C    → ABC*+
+(A+B)*C  → AB+C*</div>
+        <div class="hint">Computer ke liye postfix easy hai — parentheses ki zarurat nahi, stack se seedha evaluate ho jaata hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Operator Precedence</h4>
+        <p>Multiplication and division have higher precedence than addition and subtraction. During infix to postfix conversion, this rule determines when to pop operators from the stack to the output.</p>
+        <div class="hint">Conversion rule: operand aaya = output mein likho. Operator aaya = pehle same/higher precedence wale stack se output mein daalo, phir naya push karo.</div>
+      </div>
+
+      <div class="tags"><span class="tag">infix</span><span class="tag">postfix</span><span class="tag">precedence</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 07 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 07</span>
+      <span class="lec-title">Evaluating Postfix Expressions + Full Infix to Postfix Algorithm</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Evaluating a Postfix Expression</h4>
+        <p>Read the expression left to right. If you see a number, push it onto the stack. If you see an operator, pop two numbers, apply the operator, and push the result back. The final answer is the last item on the stack.</p>
+        <div class="code-snippet">Expression: 4 3 5 * +
+Push 4 → Stack: [4]
+Push 3 → Stack: [4, 3]
+Push 5 → Stack: [4, 3, 5]
+* → pop 5,3 → 3*5=15 → Stack: [4, 15]
++ → pop 15,4 → 4+15=19 → Answer: 19</div>
+        <div class="hint">Pop karne ki order important: pehle wala = right operand, doosra = left operand. a op b hoga, ulta mat karna.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Infix to Postfix — Full Algorithm</h4>
+        <p>1. Operand (number/letter): write directly to output. 2. '(' : push onto stack. 3. ')' : pop from stack to output until '(' is found; discard both parentheses. 4. Operator: pop operators of equal or higher precedence from stack to output, then push the new operator. 5. End of input: pop all remaining stack items to output.</p>
+        <div class="hint">Parentheses khud output mein nahi aate — sirf andar wale operators ko force karte hain pehle evaluate hone ke liye.</div>
+      </div>
+
+      <div class="tags"><span class="tag">postfix evaluation</span><span class="tag">stack algorithm</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 08 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 08</span>
+      <span class="lec-title">C++ Templates + Stack Implementation + Function Call Stack</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>C++ Templates</h4>
+        <p>A template lets you write one generic class or function that works for any data type. Instead of writing a separate Stack class for int, float, and string, you write one template and the compiler generates the specific version for you.</p>
+        <div class="code-snippet">template &lt;class T&gt;
+class Stack {
+    T data[100];
+    int top;
+    // works for int, float, string, etc.
+};</div>
+        <div class="hint">Template = ek mold, alag alag materials (data types) se same shape bana sakte ho — baar baar likhna nahi padta.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Function Call Stack</h4>
+        <p>Every time a function is called, the computer pushes a "stack frame" (also called activation record) onto the call stack. This frame holds the function's parameters, local variables, and return address. When the function finishes, the frame is popped and control returns to the caller.</p>
+        <div class="hint">Recursion isi mechanism par kaam karta hai — har recursive call ek naya frame push karta hai. Bahut deep recursion = stack overflow.</div>
+      </div>
+
+      <div class="tags"><span class="tag">templates</span><span class="tag">function call</span><span class="tag">call stack</span><span class="tag">activation record</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 09 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 09</span>
+      <span class="lec-title">Memory Organization + Stack Layout During Function Calls</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Memory Organization</h4>
+        <p>When a program runs, the OS divides memory into four areas: Code Section (the compiled program instructions), Static Data (global variables), Stack (for function calls), and Heap (for dynamic memory allocation using new/malloc).</p>
+        <div class="hint">Stack = function calls manage karta hai. Heap = new/malloc se runtime mein memory milti hai. Dono bilkul alag cheezein hain.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Stack Layout During a Function Call</h4>
+        <p>When function A calls function B, a new activation record is pushed onto the stack. It contains B's parameters, B's local variables, and the return address (so the program knows where to go after B finishes). When B returns, that record is popped off.</p>
+        <div class="hint">Activation record = function ka sara saman (parameters + local vars + return address). Function khatam = saman uthao.</div>
+      </div>
+
+      <div class="tags"><span class="tag">memory layout</span><span class="tag">heap</span><span class="tag">activation record</span><span class="tag">stack frame</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Lectures 10 – 13: Queue, Priority Queue, Binary Trees</div>
+
+  <!-- LEC 10 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 10</span>
+      <span class="lec-title">Queue — Operations, Array Implementation, Use Cases</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>What is a Queue?</h4>
+        <p>A queue is a FIFO structure — First In, First Out. The first element added is the first one removed. Like a line at a counter: whoever arrives first gets served first.</p>
+        <div class="important-note"><strong>Stack = LIFO.</strong> <strong>Queue = FIFO.</strong> These are opposite — do not mix them up in MCQs.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Queue Operations</h4>
+        <p>Enqueue: add an element to the rear of the queue. Dequeue: remove an element from the front. Front: peek at the front element. IsEmpty: check if the queue has any elements.</p>
+        <div class="hint">Queue = ek taraf se andar aao (rear), doosri taraf se niklain (front) — one-way street.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Queue using Array + Circular Queue</h4>
+        <p>Use two pointers: front and rear. Enqueue increments rear and adds; dequeue reads from front and increments front. Problem: as elements are removed, space at the beginning of the array is wasted. Solution: circular array — when rear hits the end, wrap it back to index 0.</p>
+        <div class="code-snippet">rear = (rear + 1) % arraySize;  // circular wrap</div>
+        <div class="hint">Circular queue trick = rear = (rear+1) % size. Isse starting space waste nahi hota aur array effectively reuse hoti hai.</div>
+      </div>
+
+      <div class="tags"><span class="tag">queue</span><span class="tag">FIFO</span><span class="tag">enqueue</span><span class="tag">dequeue</span><span class="tag">circular array</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 11 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 11</span>
+      <span class="lec-title">Priority Queue + Binary Tree Basics + Terminology</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Priority Queue</h4>
+        <p>A variation of a queue where each element has a priority value. When dequeuing, the element with the highest priority is removed first — regardless of when it was added. It is not strictly FIFO.</p>
+        <div class="hint">Hospital emergency = priority queue. Serious patient pehle serve hoga chahe baad mein aaya ho.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Tree Data Structure</h4>
+        <p>A tree is a hierarchical data structure with one root node at the top. Branches extend downward to child nodes. It looks like an upside-down tree. Unlike linked lists (linear), trees are non-linear.</p>
+      </div>
+
+      <div class="topic-block">
+        <h4>Binary Tree</h4>
+        <p>A tree where every node has at most 2 children: a left child and a right child. "Binary" means two.</p>
+      </div>
+
+      <div class="topic-block">
+        <h4>Key Terminology</h4>
+        <p>Root: the topmost node (no parent). Leaf: a node with no children. Parent/Child: connected nodes above/below. Height: number of edges from root to the deepest leaf. Level: root is at level 0; its children at level 1, and so on. Strictly Binary Tree: every node has exactly 0 or 2 children — never 1. Complete Binary Tree: all levels are fully filled except possibly the last, which is filled from the left.</p>
+        <div class="hint">Strictly binary = 0 ya 2 children, kabhi 1 nahi. Complete binary = sab leaves same level par (ya ek level kam, left se fill). Dono alag definitions hain.</div>
+      </div>
+
+      <div class="tags"><span class="tag">priority queue</span><span class="tag">binary tree</span><span class="tag">root</span><span class="tag">leaf</span><span class="tag">height</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 12 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 12</span>
+      <span class="lec-title">BST Rule + Insert Operation + Searching for Duplicates</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Binary Search Tree (BST) Rule</h4>
+        <p>In a BST, for every node: all values in its left subtree are smaller, and all values in its right subtree are larger. This rule applies to every node in the entire tree.</p>
+        <div class="code-snippet">      14
+     /  \
+    4    15
+   / \     \
+  3   9    18
+Left of 14 = {4,3,9} all < 14. Right = {15,18} all > 14.</div>
+        <div class="hint">BST rule = left chhota, right bara. Yeh rule har node par apply hota hai, sirf root par nahi.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Insert in BST</h4>
+        <p>Start from root. If the new value is smaller, go left; if larger, go right. Repeat at each node until you reach a NULL spot — insert there.</p>
+        <div class="hint">BST insert = compare and go left/right until NULL milta hai — wahan naya node lagao.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Searching in BST</h4>
+        <p>Same logic as insert — compare at each node and go left or right. At each step, half the remaining tree is eliminated. Average time: O(log n). Worst case (a skewed tree): O(n).</p>
+        <div class="hint">Balanced BST = O(log n) search. 1 million elements mein sirf 20 comparisons. Skewed BST = O(n) — basically a linked list.</div>
+      </div>
+
+      <div class="tags"><span class="tag">BST</span><span class="tag">insert</span><span class="tag">search</span><span class="tag">O(log n)</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 13 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 13</span>
+      <span class="lec-title">Tree Traversals — Inorder, Preorder, Postorder</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Three Traversal Methods</h4>
+        <p>Inorder (Left → Root → Right): visiting in this order on a BST always gives sorted output. Preorder (Root → Left → Right): visits root first, useful for copying a tree. Postorder (Left → Right → Root): visits root last, useful for deleting a tree or evaluating expression trees.</p>
+        <div class="code-snippet">Tree:       4
+           / \
+          2   6
+         / \
+        1   3
+
+Inorder:   1, 2, 3, 4, 6   ← sorted!
+Preorder:  4, 2, 1, 3, 6
+Postorder: 1, 3, 2, 6, 4</div>
+        <div class="hint">Inorder of BST = always sorted sequence — yeh ek guaranteed property hai, exam mein zaroor aayegi.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Recursive Implementation</h4>
+        <p>All three traversals are naturally recursive. The code is very short — just call the same function on the left subtree, then right subtree, with the root visit in the appropriate order.</p>
+        <div class="code-snippet">void inorder(Node* n) {
+    if(n == NULL) return;
+    inorder(n->left);    // Left
+    cout << n->data;     // Root
+    inorder(n->right);   // Right
+}</div>
+        <div class="hint">Bas order yaad karo: In = L-Root-R, Pre = Root-L-R, Post = L-R-Root. Baaki code same rahega.</div>
+      </div>
+
+      <div class="tags"><span class="tag">traversal</span><span class="tag">inorder</span><span class="tag">preorder</span><span class="tag">postorder</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Lectures 14 – 18: Traversal Depth, BST Delete, Reference Variables</div>
+
+  <!-- LEC 14 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 14</span>
+      <span class="lec-title">Recursive Calls + Non-Recursive Traversal + Traversal Trace</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>How Recursive Calls Work Internally</h4>
+        <p>When a function calls itself, a new stack frame is pushed onto the call stack containing the current parameters and local variables. When the recursive call returns, that frame is popped and execution continues from where it left off. This is exactly the same mechanism as normal function calls.</p>
+        <div class="hint">Recursion samajhna easy hai: base case = kab rokna hai, recursive case = khud ko call karo. Stack automatically sab track karta hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Preorder and Inorder Recursion Trace</h4>
+        <p>You can trace the exact sequence of stack pushes and pops to understand what happens step by step during a recursive traversal. Each recursive call saves its state on the stack and resumes exactly where it stopped when the child call returns.</p>
+        <div class="hint">Traversal trace mein: jab function call hoti hai, stack par push; jab return hoti hai, pop. Yeh trace exam mein draw karna aa sakta hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Non-Recursive Traversal</h4>
+        <p>You can implement any tree traversal without recursion by using an explicit stack. Instead of relying on the call stack, you manually push and pop nodes. This gives you more control and can be more memory-efficient for very deep trees.</p>
+        <div class="hint">Non-recursive = apna khud ka stack use karo instead of recursion. Same result, different implementation.</div>
+      </div>
+
+      <div class="tags"><span class="tag">recursion</span><span class="tag">stack frames</span><span class="tag">non-recursive</span><span class="tag">traversal trace</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 15 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 15</span>
+      <span class="lec-title">Level-Order Traversal + Strings in BST + Deleting a Node (3 Cases)</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>Level-Order Traversal</h4>
+        <p>Visit the tree level by level — first the root, then all nodes at depth 1, then all nodes at depth 2, and so on. This is implemented using a Queue (not a stack). Enqueue the root, then for each dequeued node, enqueue its children.</p>
+        <div class="code-snippet">Level 0:  14
+Level 1:   4   15
+Level 2:  3  9   18
+Level 3:    7  16  20</div>
+        <div class="hint">Level-order = Queue use hoti hai. Normal traversals (in/pre/post) = Stack (recursion). Yeh farq important hai — MCQ mein aata hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>BST with Strings</h4>
+        <p>BSTs are not limited to numbers. Strings work the same way — comparison is alphabetical. "apple" &lt; "banana" so apple goes in the left subtree. All BST rules apply identically.</p>
+        <div class="hint">String BST = same rules, bas comparison alphabetical hoti hai numbers ki jagah.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Deleting a Node from BST — 3 Cases</h4>
+        <p>Case 1 — Leaf node (no children): simply remove it and set the parent's pointer to NULL. Case 2 — One child: remove the node and connect the parent directly to that one child. Case 3 — Two children (hardest): find the inorder successor (the smallest node in the right subtree — the leftmost node there). Copy its value to the node being deleted, then delete the inorder successor (which is always a case 1 or case 2 deletion).</p>
+        <div class="hint">Case 3 shortcut: inorder successor = right subtree ka sabse left (chhota) node. Uski value copy karo, phir use delete karo.</div>
+      </div>
+
+      <div class="tags"><span class="tag">level order</span><span class="tag">queue</span><span class="tag">BST delete</span><span class="tag">inorder successor</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 16 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 16</span>
+      <span class="lec-title">BST Deletion C++ Code + BST Class</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>C++ Code for BST Remove</h4>
+        <p>The remove function first searches for the target node. Then it checks which case applies (0, 1, or 2 children) and adjusts pointers accordingly. If the node was dynamically allocated, memory is freed using delete.</p>
+        <div class="hint">Guaranteed property: inorder successor ka left child kabhi nahi hota — agar hota toh woh leftmost nahi hota. Yeh deletion simplify karta hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>BST as a C++ Class</h4>
+        <p>The entire BST is wrapped inside a class. Public interface: insert(), remove(), find(). Private: the root pointer and helper (recursive) functions. This is encapsulation — the user of the class does not need to know the internal tree structure.</p>
+        <div class="hint">Class = ADT ka C++ implementation. Public = jo user dekhta hai. Private = andar ki machinery — chhupao isay.</div>
+      </div>
+
+      <div class="tags"><span class="tag">BST remove</span><span class="tag">C++ class</span><span class="tag">encapsulation</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 17 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 17</span>
+      <span class="lec-title">Reference Variables + & Operator + Call by Value/Reference/Pointer</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>What is a Reference Variable?</h4>
+        <p>A reference variable is an alias — another name for an existing variable. Both names refer to the same memory location. Changing one changes the other automatically.</p>
+        <div class="code-snippet">int x = 10;
+int& ref = x;  // ref is another name for x
+ref = 20;      // x is now also 20</div>
+        <div class="hint">& ka teen jagah alag matlab: (1) &x = address of x, (2) int& r = x = reference variable, (3) a&b = bitwise AND. Context se pehchano.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Call by Value vs Reference vs Pointer</h4>
+        <p>Call by Value: a copy is passed; original is not changed. Call by Reference: the original variable is passed directly; changes inside the function affect the original. Call by Pointer: a pointer to the variable is passed; you can change the original by dereferencing the pointer.</p>
+        <div class="hint">Function signature mein insert(const EType& x): const = change nahi hoga, & = copy nahi bani (efficient for large objects). Dono ek saath use hote hain.</div>
+      </div>
+
+      <div class="tags"><span class="tag">reference variable</span><span class="tag">call by reference</span><span class="tag">& operator</span></div>
+    </div>
+  </div>
+
+  <!-- LEC 18 -->
+  <div class="lecture-card">
+    <div class="lecture-header" onclick="toggleLec(this)">
+      <span class="lec-num">Lec 18</span>
+      <span class="lec-title">const Keyword + Transient Objects + Tips</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="lecture-body">
+
+      <div class="topic-block">
+        <h4>const Keyword</h4>
+        <p>const locks a variable's value — it cannot be changed after initialization. In function parameters, using const tells the compiler and the reader that this function will not modify the passed value. The compiler enforces this.</p>
+        <div class="code-snippet">void insert(const int& x) {
+    // x cannot be modified here
+    // but no copy is made (passed by reference)
+}</div>
+        <div class="hint">const + reference = best combination: no copy (fast) + no accidental modification (safe). Isliye C++ mein BST methods mein yahi pattern milta hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Transient Objects and Dangling References</h4>
+        <p>Local variables are created on the call stack and destroyed when the function returns. If you store a reference to a local variable inside a data structure, and the function returns, that reference now points to destroyed (invalid) memory. This is called a dangling reference and is a serious bug.</p>
+        <div class="hint">Kabhi bhi local variable ka reference/pointer data structure mein store mat karo — function return hone ke baad woh memory invalid ho jaati hai.</div>
+      </div>
+
+      <div class="topic-block">
+        <h4>Stack Concept Across Languages</h4>
+        <p>The concept of function calls using a stack is universal — it works the same in Java, FORTRAN, Pascal, and C++. Only the syntax differs. Java passes native types by value and objects by reference. FORTRAN passes everything by reference.</p>
+        <div class="hint">Stack mechanism sab languages mein same hai — yeh hardware level concept hai, kisi ek language ka nahi.</div>
+      </div>
+
+      <div class="tags"><span class="tag">const</span><span class="tag">dangling reference</span><span class="tag">transient object</span></div>
+    </div>
+  </div>
+
+  <!-- QUICK REVISION -->
+  <div style="margin-top: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem;">Quick Revision — Most Important Points</h3>
+    <div class="quick-grid">
+      <div class="hint" style="margin:0;">Stack = LIFO, Queue = FIFO — mix mat karna MCQs mein, yeh sabse common mistake hai.</div>
+      <div class="hint" style="margin:0;">Inorder traversal of BST = always sorted output. Yeh guaranteed property hai.</div>
+      <div class="hint" style="margin:0;">Circular linked list = last node ka next, first node par point karta hai (NULL nahi).</div>
+      <div class="hint" style="margin:0;">Level-order traversal = Queue use karta hai. Baaki traversals (in/pre/post) = Stack.</div>
+      <div class="hint" style="margin:0;">BST delete case 3 = inorder successor se replace karo — right subtree ka leftmost node.</div>
+      <div class="hint" style="margin:0;">Postfix evaluate: operator aaya toh 2 numbers pop karo, operate karo, result push karo.</div>
+      <div class="hint" style="margin:0;">const& parameter = fast (no copy) + safe (no modification). Best practice in C++.</div>
+      <div class="hint" style="margin:0;">Array vs Linked List: Array = fast access O(1). Linked list = fast insert/delete, slow access O(n).</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleLec(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  body.classList.toggle('collapsed');
+  icon.textContent = body.classList.contains('collapsed') ? '▶' : '▼';
+}
+</script>
+</body>
+</html>
