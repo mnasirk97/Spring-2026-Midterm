@@ -1,0 +1,138 @@
+
+<h2 class="sr-only">CS301 main topics explained in simple words</h2>
+
+<style>
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; padding: 1rem 0; }
+.topic-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.topic-card:hover { border-color: var(--color-border-secondary); }
+.t-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.t-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.t-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.t-subtitle { font-size: 12px; color: var(--color-text-secondary); margin-top: 1px; }
+.t-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 10px; }
+.t-analogy { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; font-size: 12px; color: var(--color-text-secondary); border-left: 2px solid var(--color-border-secondary); border-radius: 0; }
+.t-analogy strong { color: var(--color-text-primary); font-weight: 500; }
+.t-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.t-tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-tertiary); }
+.section-label { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 2px; margin: 1.5rem 0 0.5rem; padding: 0 0.25rem; }
+</style>
+
+<div class="section-label">Data Structures</div>
+<div class="topic-grid">
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#E6F1FB; color:#185FA5;"><i class="ti ti-list" aria-hidden="true"></i></div>
+      <div><div class="t-name">Linked List</div><div class="t-subtitle">Lec 01 – 04</div></div>
+    </div>
+    <div class="t-desc">A chain of boxes. Each box holds a value and a pointer to the next box. Unlike an array, boxes don't need to be next to each other in memory — they can be scattered anywhere.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Train coaches. Each coach is connected to the next one. You can add/remove a coach from anywhere in the train.</div>
+    <div class="t-tags"><span class="t-tag">Singly</span><span class="t-tag">Doubly</span><span class="t-tag">Circular</span><span class="t-tag">add/remove/find</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#EEEDFE; color:#534AB7;"><i class="ti ti-stack-2" aria-hidden="true"></i></div>
+      <div><div class="t-name">Stack</div><div class="t-subtitle">Lec 05 – 09</div></div>
+    </div>
+    <div class="t-desc">A pile where you can only add or remove from the top. Last item you put in is the first one you take out. Used by the computer itself for function calls and expression solving.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Stack of plates. You always take the top plate first — you can't pull from the bottom.</div>
+    <div class="t-tags"><span class="t-tag">LIFO</span><span class="t-tag">Push / Pop</span><span class="t-tag">Infix → Postfix</span><span class="t-tag">Function calls</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#E1F5EE; color:#0F6E56;"><i class="ti ti-arrows-right-left" aria-hidden="true"></i></div>
+      <div><div class="t-name">Queue</div><div class="t-subtitle">Lec 10 – 11</div></div>
+    </div>
+    <div class="t-desc">A line where items enter from the back and leave from the front. First person who joined the line gets served first. Opposite of a stack.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Queue at a bakery. The person who arrived first gets served first — fair order.</div>
+    <div class="t-tags"><span class="t-tag">FIFO</span><span class="t-tag">Enqueue / Dequeue</span><span class="t-tag">Circular array</span><span class="t-tag">Priority queue</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#FAEEDA; color:#854F0B;"><i class="ti ti-binary-tree" aria-hidden="true"></i></div>
+      <div><div class="t-name">Binary Search Tree (BST)</div><div class="t-subtitle">Lec 11 – 16</div></div>
+    </div>
+    <div class="t-desc">A tree where every node has max 2 children. Rule: smaller values go left, larger go right. This makes searching very fast — you eliminate half the tree at every step.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Dictionary search. You open in the middle — if your word is earlier you go left half, if later you go right half. Done in seconds.</div>
+    <div class="t-tags"><span class="t-tag">Insert</span><span class="t-tag">Delete (3 cases)</span><span class="t-tag">Inorder / Preorder / Postorder</span><span class="t-tag">Level-order</span></div>
+  </div>
+
+</div>
+
+<div class="section-label">Key Concepts</div>
+<div class="topic-grid">
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#FAECE7; color:#993C1D;"><i class="ti ti-math-function" aria-hidden="true"></i></div>
+      <div><div class="t-name">ADT — Abstract Data Type</div><div class="t-subtitle">Lec 05</div></div>
+    </div>
+    <div class="t-desc">You define what operations a structure supports — but hide how it works inside. The user only sees the interface, not the code behind it. Stack, Queue, BST are all ADTs.</div>
+    <div class="t-analogy"><strong>Real life:</strong> A TV remote. You press "volume up" — you don't need to know the circuit inside. Interface is public, internals are hidden.</div>
+    <div class="t-tags"><span class="t-tag">Interface</span><span class="t-tag">Encapsulation</span><span class="t-tag">C++ classes</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#EAF3DE; color:#3B6D11;"><i class="ti ti-transform" aria-hidden="true"></i></div>
+      <div><div class="t-name">Infix → Postfix Conversion</div><div class="t-subtitle">Lec 06 – 07</div></div>
+    </div>
+    <div class="t-desc">Infix is how humans write math: A+B. Postfix is what computers prefer: AB+. No brackets needed in postfix. A stack is used to do the conversion and also to evaluate the result.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Writing "5 3 +" instead of "5 + 3". The operator goes after the numbers. Computer reads left to right and stacks numbers.</div>
+    <div class="t-tags"><span class="t-tag">Operator precedence</span><span class="t-tag">Stack</span><span class="t-tag">Symbol|Stack|Postfix table</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#FBEAF0; color:#993556;"><i class="ti ti-variable" aria-hidden="true"></i></div>
+      <div><div class="t-name">Reference Variables</div><div class="t-subtitle">Lec 17 – 18</div></div>
+    </div>
+    <div class="t-desc">A second name for the same variable. Both names point to the same memory slot. Change one, the other changes too. Used to pass data to functions without copying it.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Your name vs your nickname. Both refer to the same person. If that person gets a haircut, both "versions" of them have a haircut.</div>
+    <div class="t-tags"><span class="t-tag">int &y = x</span><span class="t-tag">Call by reference</span><span class="t-tag">const &</span><span class="t-tag">Dangling reference</span></div>
+  </div>
+
+  <div class="topic-card">
+    <div class="t-head">
+      <div class="t-icon" style="background:#F1EFE8; color:#5F5E5A;"><i class="ti ti-cpu" aria-hidden="true"></i></div>
+      <div><div class="t-name">Memory + Function Call Stack</div><div class="t-subtitle">Lec 08 – 09</div></div>
+    </div>
+    <div class="t-desc">When your program runs, memory is split into 4 areas: Code, Static Data, Stack (for function calls), Heap (for new/malloc). Every function call pushes a frame onto the stack with its variables and return address.</div>
+    <div class="t-analogy"><strong>Real life:</strong> Putting a bookmark before leaving a page. When a function is called, the computer bookmarks where it was, does the task, then returns to the bookmark.</div>
+    <div class="t-tags"><span class="t-tag">Stack frame</span><span class="t-tag">Activation record</span><span class="t-tag">Heap</span><span class="t-tag">Recursion</span></div>
+  </div>
+
+</div>
+
+<div class="section-label">One-line reminders</div>
+<div style="background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem;">
+  <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+    <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+      <td style="padding: 7px 8px; color: var(--color-text-secondary); width: 36%;">Array vs Linked List</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Array = fast access, slow insert. Linked list = slow access, fast insert.</td>
+    </tr>
+    <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+      <td style="padding: 7px 8px; color: var(--color-text-secondary);">Stack vs Queue</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Stack = last in first out. Queue = first in first out.</td>
+    </tr>
+    <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+      <td style="padding: 7px 8px; color: var(--color-text-secondary);">BST rule</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Left = smaller. Right = larger. Every node follows this rule.</td>
+    </tr>
+    <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+      <td style="padding: 7px 8px; color: var(--color-text-secondary);">Inorder traversal of BST</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Always gives sorted output. Guaranteed.</td>
+    </tr>
+    <tr style="border-bottom: 0.5px solid var(--color-border-tertiary);">
+      <td style="padding: 7px 8px; color: var(--color-text-secondary);">Level-order traversal</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Uses a Queue, not a Stack. Level by level, top to bottom.</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 8px; color: var(--color-text-secondary);">BST delete (2 children)</td>
+      <td style="padding: 7px 8px; color: var(--color-text-primary);">Replace with inorder successor = smallest node in right subtree.</td>
+    </tr>
+  </table>
+</div>
